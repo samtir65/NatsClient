@@ -9,7 +9,7 @@ namespace NatsServer.Interfaces
 {
     public interface IUserManagement
     {
-        UserDto Signup(RequestDto requestDto);
-        UserDto Get(Guid Id);
+        Task<UserDto> Signup(RequestDto requestDto);
+        Task<UserDto?> Get(Guid Id);
     }
 }

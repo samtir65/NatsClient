@@ -1,18 +1,16 @@
 ﻿
 using System.Runtime.InteropServices.JavaScript;
+using NatsServer.Data;
 using NatsServer.DTOs;
 using NatsServer.Implementation;
 
-UserManagement userManagement = new UserManagement();
-
-UserDto userDto = userManagement.Signup(new RequestDto()
-{
-    Age = 37,
-    Name = "mohammad",
-    Password = "sam123"
-
-});
 
 
-Console.WriteLine(userDto.Name+ ' '+userDto.Age+ ' '+userDto.PasswordHash);
 
+
+var userManage = new UserManagement();
+
+var user = await userManage.Get(new Guid("EDDFC991-DE3F-429C-DC7F-08DB58B99DD6"));
+
+var c = 1;
+    

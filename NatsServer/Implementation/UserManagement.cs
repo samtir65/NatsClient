@@ -5,6 +5,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.EntityFrameworkCore;
+using NatsServer.Data;
 using NatsServer.DTOs;
 using NatsServer.Interfaces;
 
@@ -12,21 +14,43 @@ namespace NatsServer.Implementation
 {
     public class UserManagement:IUserManagement
     {
-        public UserDto Signup(RequestDto requestDto)
+        public async Task<UserDto> Signup(RequestDto requestDto)
         {
             var userdto = new UserDto()
             {
+                
                 Age = requestDto.Age,
                 Name = requestDto.Name,
                 PasswordHash = HashPassword(requestDto.Password)
-
+                
             };
+
+            using (var db = new DataBase())
+            {
+                
+
+                db.Users.Add((userdto));
+
+                await db.SaveChangesAsync();
+            }
+
+
             return userdto;
         }
 
-        public UserDto Get(Guid Id)
+        public async Task<UserDto?> Get(Guid Id)
         {
-            throw new NotImplementedException();
+            using (var db = new DataBase())
+            {
+              UserDto? user = await db.Users
+                  .Where(x=>x.Id == Id)
+                  .FirstOrDefaultAsync();
+
+
+              return user;
+            }
+
+            
         }
 
         static string HashPassword(string password)
