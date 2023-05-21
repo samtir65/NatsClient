@@ -46,8 +46,9 @@ namespace NatsServer.Implementation
                   .Where(x=>x.Id == Id)
                   .FirstOrDefaultAsync();
 
+              Console.WriteLine(user.Name + ' ' + user.Age + ' ' + user.PasswordHash);
 
-              return user;
+                return user;
             }
 
             
